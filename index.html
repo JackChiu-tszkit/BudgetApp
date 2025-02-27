@@ -14,6 +14,7 @@
         <label for="category">Category:</label>
         <input type="text" id="category" placeholder="Category">
         <button onclick="addExpense()">Add Expense</button>
+        <button onclick="exportToExcel()">Export to Excel</button>
         
         <h2>Expenses</h2>
         <ul id="expense-list"></ul>
@@ -21,6 +22,8 @@
     </div>
     <script>
         let total = 0;
+        let expenses = [];
+
         function addExpense() {
             let amount = document.getElementById('amount').value;
             let category = document.getElementById('category').value;
@@ -31,9 +34,21 @@
                 expenseList.appendChild(listItem);
                 total += parseFloat(amount);
                 document.getElementById('total').textContent = total;
+                expenses.push({ category, amount });
                 document.getElementById('amount').value = '';
                 document.getElementById('category').value = '';
             }
+        }
+
+        function exportToExcel() {
+            let csvContent = "data:text/csv;charset=utf-8,Category,Amount\n" + 
+                expenses.map(e => `${e.category},${e.amount}`).join("\n");
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "budget_expenses.csv");
+            document.body.appendChild(link);
+            link.click();
         }
     </script>
 </body>
