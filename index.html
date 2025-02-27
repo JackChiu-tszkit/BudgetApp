@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budgeting App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Budgeting App</h1>
+        <label for="amount">Enter Amount:</label>
+        <input type="number" id="amount" placeholder="Amount">
+        <label for="category">Category:</label>
+        <input type="text" id="category" placeholder="Category">
+        <button onclick="addExpense()">Add Expense</button>
+        
+        <h2>Expenses</h2>
+        <ul id="expense-list"></ul>
+        <h3>Total: <span id="total">0</span> NOK</h3>
+    </div>
+    <script>
+        let total = 0;
+        function addExpense() {
+            let amount = document.getElementById('amount').value;
+            let category = document.getElementById('category').value;
+            if (amount && category) {
+                let expenseList = document.getElementById('expense-list');
+                let listItem = document.createElement('li');
+                listItem.textContent = `${category}: ${amount} NOK`;
+                expenseList.appendChild(listItem);
+                total += parseFloat(amount);
+                document.getElementById('total').textContent = total;
+                document.getElementById('amount').value = '';
+                document.getElementById('category').value = '';
+            }
+        }
+    </script>
+</body>
+</html>
